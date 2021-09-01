@@ -21,6 +21,14 @@ steps:
     tasks: 'assembleDebug test'
   displayName: gradlew assembleDebug test
 
+- task: CacheBeta@0
+  displayName: 'Caching System Images for AVD'
+  inputs:
+    key: 'AVD_IMAGES_PIXEL_28'
+    path: '$(ANDROID_HOME)/system-images'
+    cacheHitVar: 'AVD_IMAGES_RESTORED'
+  continueOnError: true
+  condition: succeededOrFailed()
 - task: CopyFiles@2
   inputs:
     contents: '**/*.apk'
