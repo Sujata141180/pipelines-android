@@ -34,7 +34,13 @@ steps:
     $ANDROID_HOME/platform-tools/adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed | tr -d '\r') ]]; do sleep 1; done' 
     $ANDROID_HOME/platform-tools/adb devices echo "Emulator started" 
   displayName: 'Create and start emulator'
-  
+
+- bash: | 
+    ./gradlew connectedDebugAndroidTest --stacktrace 
+    ./gradlew --stop 
+  displayName: 'Run Instrumented Tests' 
+  continueOnError: true
+   
 - task: CopyFiles@2
   inputs:
     contents: '**/*.apk'
